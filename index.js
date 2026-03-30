@@ -551,8 +551,24 @@ bot.on(["photo", "video", "document"], async (ctx) => {
   }
 });
 
+// =========================
+// KHỞI ĐỘNG BOT + HTTP SERVER CHO RENDER
+// =========================
+
 bot.launch();
 console.log(`${BOT_NAME} PRO MAX đang chạy...`);
+
+const http = require("http");
+const PORT = process.env.PORT || 10000;
+
+http
+  .createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+    res.end("Bot is running");
+  })
+  .listen(PORT, "0.0.0.0", () => {
+    console.log(`HTTP server listening on port ${PORT}`);
+  });
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
